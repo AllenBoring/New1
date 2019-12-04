@@ -32,7 +32,10 @@ def Tree(branch, t):
         t.up()
         t.backward(branch)
         t.down()
-
+print(123456)
+print(123456)
+print(123456)
+print(123456)
 # 掉落的花瓣
 def Petal(m, t):
     for i in range(m):
@@ -68,3 +71,6 @@ Tree(60, t)
 # 掉落的花瓣
 Petal(200, t)
 w.exitonclick()
+
+
+
