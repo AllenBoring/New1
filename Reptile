@@ -1,0 +1,48 @@
+# -*- coding:UTF-8 -*-
+from email import header
+
+from bs4 import BeautifulSoup
+from urllib.request import urlretrieve
+import requests
+import os
+import time
+
+if __name__ == '__main__':
+	list_url = []
+	for num in range(2,3):
+		url = 'http://www.shuaia.net/index_%d.html' % num
+		print(url)
+		req = requests.get(url)
+		req.encoding = 'utf-8'
+		html = req.text
+		bf = BeautifulSoup(html, 'lxml')
+		targets_url = bf.find_all(class_='item-img')
+		print(len(targets_url))
+		for each in targets_url:
+			list_url.append(each.img.get('alt') + '=' + each.get('href'))
+	print(len(list_url))
+	print('链接采集完成')
+
+	lists = list_url[1]
+	print(lists)
+	img_info = lists.split('=')
+	target_url = img_info[1]
+	img_req = requests.get(target_url)
+	img_req.encoding = 'utf-8'
+	img_html = img_req.text
+	img_bf_1 = BeautifulSoup(img_html,'lxml')
+	img_url = img_bf_1.find_all('div', class_='wr-single-content-list')
+	img_bf_2 = BeautifulSoup(str(img_url),'lxml')
+	img_url_1 =img_bf_2.find_all('img')
+	if 'images' not in os.listdir():
+		print('==================')
+		os.makedirs('images')
+	i=0
+	for imgs in img_url_1:
+		imgs1 = imgs.get('src')
+		i += 1
+		print(str(imgs1))
+		urlretrieve(imgs1, filename='images/' + str(i)+'.jpg')
+
+
+print('下载完成！')
