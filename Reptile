@@ -44,5 +44,4 @@ if __name__ == '__main__':
 		print(str(imgs1))
 		urlretrieve(imgs1, filename='images/' + str(i)+'.jpg')
 
-
 print('下载完成！')
